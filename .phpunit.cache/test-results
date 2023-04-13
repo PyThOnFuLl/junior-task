@@ -1,0 +1,1 @@
+{"version":1,"defects":{"App\\Tests\\GetTest::testGetUser":7,"App\\Tests\\DeleteTest::testDeleteUser":7,"App\\Tests\\DeleteTest::testDelete":7,"App\\Tests\\PostTest::testCreateUser":7},"times":{"App\\Tests\\GetTest::testGetUser":0.242,"App\\Tests\\PostTest::testCreateUser":0.229,"App\\Tests\\DeleteTest::testDeleteUser":0.17,"App\\Tests\\DeleteTest::testDelete":0.364}}

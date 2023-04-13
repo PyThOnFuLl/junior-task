@@ -1,0 +1,6 @@
+App\Entity\User:
+  user_{1..10}:
+    date_update: <dateTime()>
+    date_create: <dateTime()>
+    username: <text(20)>
+    password: <text(20)>
