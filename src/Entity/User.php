@@ -27,14 +27,16 @@ use Doctrine\ORM\Mapping as ORM;
             new Post(
                 uriTemplate: 'user/register',
                 controller: RegistrationController::class,
-            ),
-            new Get(),
-            new GetCollection(),
-            new Put(controller: RegistrationController::class,),
+                normalizationContext: ['groups' => ['user.read']],
+                denormalizationContext: ['groups' => ['user.write']]),
+            new Get(normalizationContext: ['groups' => ['user.image.read']]),
+            new GetCollection(normalizationContext: ['groups' => ['user.image.read']]),
+            new Put(
+                controller: RegistrationController::class,
+                normalizationContext: ['groups' => ['user.read']],
+                denormalizationContext: ['groups' => ['user.write']]),
             new Delete()],
-        inputFormats: ['multipart' => ['multipart/form-data']],
-        normalizationContext: ['groups' => ['user.read']],
-        denormalizationContext: ['groups' => ['user.write']])
+        inputFormats: ['multipart' => ['multipart/form-data']])
 ]
 
 class User extends BaseEntity implements UserInterface, PasswordAuthenticatedUserInterface
@@ -44,7 +46,6 @@ class User extends BaseEntity implements UserInterface, PasswordAuthenticatedUse
     private ?string $email = null;
 
     #[ORM\Column]
-    #[Groups(['user.read'])]
     private array $roles = [];
 
     /**
@@ -58,7 +59,7 @@ class User extends BaseEntity implements UserInterface, PasswordAuthenticatedUse
      * @var Image[]
      */
     #[ORM\OneToMany(mappedBy: "user", targetEntity: "Image")]
-    #[Groups(['user.read'])]
+    #[Groups(['user.read', 'user.image.read'])]
     private iterable $images = [];
 
     public function getEmail(): ?string

@@ -18,17 +18,21 @@ use Doctrine\ORM\Mapping as ORM;
         operations: [
         new Post(
             controller: CreateImageAction::class,
+            normalizationContext: ['groups' => ['image.read']],
+            denormalizationContext: ['groups' => ['image.write']],
             validationContext: ['groups' => ['Default', 'image_create']],
             deserialize: false),
-        new Get(),
+        new Get(normalizationContext: ['groups' => ['get.image.read']]),
         new GetCollection(
             controller: GetImageAction::class,
+            normalizationContext: ['groups' => ['get.image.read']],
             security: "is_granted('ROLE_USER')"),
         new Delete(),
-        new Put()],
-        inputFormats: ['multipart' => ['multipart/form-data']],
-        normalizationContext: ['groups' => ['image.read']],
-        denormalizationContext: ['groups' => ['image.write']],
+        new Put(
+            normalizationContext: ['groups' => ['image.read']],
+            denormalizationContext: ['groups' => ['image.write']])
+        ],
+        inputFormats: ['multipart' => ['multipart/form-data']]
         ),
         ApiFilter(
             SearchFilter::class,
@@ -47,6 +51,7 @@ class Image extends BaseEntity
 {
     #[ORM\ManyToOne(targetEntity: "User", inversedBy: "images")]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups(['get.image.read'])]
     private User $user;
 
     #[ApiProperty(types: ['https://schema.org/contentUrl'])]

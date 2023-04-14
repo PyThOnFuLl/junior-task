@@ -3,17 +3,14 @@
 namespace App\Controller;
 
 use App\Entity\Image;
-use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpKernel\Attribute\AsController;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Imagine\Gd\Imagine;
 use Imagine\Image\Box;
 
-#[AsController]
 final class CreateImageAction extends AbstractController
 {
     private Security $security;
@@ -36,18 +33,8 @@ final class CreateImageAction extends AbstractController
         $image->file = $uploadedFile;
 
         $user = $this->security->getUser();
-        if (!$user) {
-            throw new BadRequestHttpException('User not authenticated');
-        }
 
-        $userId = $user->getId();
-
-        $userEntity = $entityManager->getRepository(User::class)->find($userId);
-        if (!$userEntity) {
-            throw new BadRequestHttpException(sprintf('User with ID %s not found', $userId));
-        }
-
-        $image->setUser($userEntity);
+        $image->setUser($user);
 
         $entityManager->persist($image);
         $entityManager->flush();

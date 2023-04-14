@@ -4,13 +4,11 @@ namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\SecurityBundle\Security;
-use Symfony\Component\HttpKernel\Attribute\AsController;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Image;
 use Doctrine\ORM\EntityManagerInterface;
 
-#[AsController]
 final class GetImageAction extends AbstractController
 {
     private Security $security;
