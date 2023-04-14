@@ -18,7 +18,6 @@ final class GetImageAction extends AbstractController
         $this->security = $security;
     }
 
-    #[Route('/images', name: 'image_collection', methods: ['GET'])]
     public function __invoke(EntityManagerInterface $entityManager): array
     {
         $user = $this->security->getUser();
